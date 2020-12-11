@@ -1,0 +1,2 @@
+pdfminer.six>=20201018
+tornado>=6.1
