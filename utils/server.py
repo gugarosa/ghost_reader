@@ -4,6 +4,7 @@ from concurrent.futures import ProcessPoolExecutor
 from tornado.web import Application
 
 import utils.constants as c
+from handlers.extract import ExtractHandler
 from utils.process_manager import ProcessManager
 
 
@@ -34,6 +35,7 @@ class Server(Application):
 
         # Defines the handlers that will handle the requests
         handlers = [
+            (r'/api/extract', ExtractHandler, args),
         ]
 
         # Overriding the application class

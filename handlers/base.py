@@ -26,3 +26,22 @@ class BaseHandler(RequestHandler):
                         'x-requested-with, Authorization, Content-type')
         self.set_header('Access-Control-Allow-Methods',
                         'POST, GET, OPTIONS, PATCH, DELETE, PUT')
+
+    def handle_response(self, task, response_type):
+        """Handles a response by outputting vital information.
+
+        Args:
+            task (str): Task identifier.
+            response_type (str): Type of the response.
+
+        Returns:
+            A dictionary holding the response.
+
+        """
+
+        # Defines a response object to output
+        res = {
+            response_type: f'A {task} task is being added to the pool.'
+        }
+
+        return res

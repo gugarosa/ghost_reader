@@ -3,11 +3,14 @@ import logging
 
 import tornado
 
-import utils.messaging as m
 from handlers.base import BaseHandler
+from processors.extract import ExtractProcessor
+
+# Creates a constant that defines the type of task
+TASK_IDENTIFIER = 'extract'
 
 
-class TrainerHandler(BaseHandler):
+class ExtractHandler(BaseHandler):
     """Defines all possible methods for extract information (text) from a PDF.
 
     """
@@ -20,7 +23,7 @@ class TrainerHandler(BaseHandler):
         # Gathers the config, process manager and processor objects
         self.config = kwargs.get('config')
         self.process_manager = kwargs.get('process_manager')
-        self.processor = TrainerProcessor
+        self.processor = ExtractProcessor
 
     async def post(self):
         """It defines the POST request for this handler.
@@ -39,7 +42,7 @@ class TrainerHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logging.info('Adding extract task to the pool ...')
+            logging.debug('Adding extract task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process({
@@ -53,11 +56,11 @@ class TrainerHandler(BaseHandler):
 
             # Sets status  to error and writes back
             self.set_status(500)
-            self.finish(m.handler_error('extract'))
+            self.finish(self.handle_response(TASK_IDENTIFIER, 'error'))
 
             return False
 
         # Writes back a success message
-        self.finish(m.handler_success('extract'))
+        self.finish(self.handle_response(TASK_IDENTIFIER, 'success'))
 
         return True

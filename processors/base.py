@@ -3,7 +3,7 @@ import logging
 import os
 
 
-class Processor:
+class BaseProcessor:
     """Consumes any type of tasks.
 
     """
@@ -21,12 +21,12 @@ class Processor:
 
         # Tries to consume the task
         try:
-            logging.info('Sending task to worker ...')
+            logging.debug('Sending task to worker ...')
 
             # Consumes the task
             self._invoke_consume(task)
 
-            logging.info('Worker has finished the task.')
+            logging.debug('Worker has finished the task.')
 
         # If an exception has happened, logs it
         except Exception as e:

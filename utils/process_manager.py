@@ -231,7 +231,7 @@ class ProcessManager:
                         # Appends the process to the GPU pool
                         gpu_pool.append(p)
 
-                        logging.info('Adding process to GPU pool ...')
+                        logging.debug('Adding process to GPU pool ...')
 
                     # If the device configuration is set to the CPU
                     else:
@@ -246,7 +246,7 @@ class ProcessManager:
                         # Appends the process to the CPU pool
                         cpu_pool.append(p)
 
-                        logging.info('Adding process to CPU pool ...')
+                        logging.debug('Adding process to CPU pool ...')
 
             # Whenever the queue is empty, logs the exception
             except queue_lib.Empty as e:
