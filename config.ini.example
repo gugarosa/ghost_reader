@@ -1,6 +1,6 @@
 [SERVER]
 PORT=8080
-PATH=
+PATH=/data
 WORKERS=1
 
 [GPU]

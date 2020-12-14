@@ -9,6 +9,8 @@ from tornado.ioloop import IOLoop
 
 import utils.constants as c
 
+logger = logging.getLogger(__name__)
+
 
 class ProcessManager:
     """Controls the multi-processing features of this application.
@@ -182,7 +184,7 @@ class ProcessManager:
             __empty_process_pool(cpu_pool)
             __empty_process_pool(gpu_pool)
 
-            logging.warning('Interrupting the process manager ...')
+            logger.warning('Interrupting the process manager ...')
 
             # Exits the process
             sys.exit()
@@ -231,7 +233,7 @@ class ProcessManager:
                         # Appends the process to the GPU pool
                         gpu_pool.append(p)
 
-                        logging.debug('Adding process to GPU pool ...')
+                        logger.debug('Adding process to GPU pool ...')
 
                     # If the device configuration is set to the CPU
                     else:
@@ -246,7 +248,7 @@ class ProcessManager:
                         # Appends the process to the CPU pool
                         cpu_pool.append(p)
 
-                        logging.debug('Adding process to CPU pool ...')
+                        logger.debug('Adding process to CPU pool ...')
 
             # Whenever the queue is empty, logs the exception
             except queue_lib.Empty as e:

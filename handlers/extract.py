@@ -9,6 +9,7 @@ from processors.extract import ExtractProcessor
 # Creates a constant that defines the type of task
 TASK_IDENTIFIER = 'extract'
 
+logger = logging.getLogger(__name__)
 
 class ExtractHandler(BaseHandler):
     """Defines all possible methods for extract information (text) from a PDF.
@@ -33,8 +34,15 @@ class ExtractHandler(BaseHandler):
 
         """
 
+        # Gets the request
+        req = tornado.escape.json_decode(self.request.body)
+
+        # Gathering the request meta-information
+        pdf_url = req['pdf_url']
+
         # Creating the data object
         data = {
+            'pdf_url': pdf_url,
             'callback': {
                 'start_time': datetime.datetime.utcnow().isoformat()
             }
@@ -42,7 +50,7 @@ class ExtractHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logging.debug('Adding extract task to the pool ...')
+            logger.debug('Adding extract task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process({
@@ -52,7 +60,7 @@ class ExtractHandler(BaseHandler):
 
         # If process could not be added to the pool, reply with an error
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
 
             # Sets status  to error and writes back
             self.set_status(500)

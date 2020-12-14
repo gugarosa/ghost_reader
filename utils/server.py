@@ -7,6 +7,8 @@ import utils.constants as c
 from handlers.extract import ExtractHandler
 from utils.process_manager import ProcessManager
 
+logger = logging.getLogger(__name__)
+
 
 class Server(Application):
     """It instantiates and boostraps all application-related services.
@@ -49,7 +51,7 @@ class Server(Application):
 
         """
 
-        logging.warning('Shutting down workers pool ...')
+        logger.warning('Shutting down workers pool ...')
 
         # Shutdowns the pool
         self.pool.shutdown(blocking_call)

@@ -2,7 +2,11 @@ import datetime
 import logging
 import os
 
+import utils.constants as c
+import utils.loader as l
 from processors.base import BaseProcessor
+
+logger = logging.getLogger(__name__)
 
 
 class ExtractProcessor(BaseProcessor):
@@ -29,4 +33,17 @@ class ExtractProcessor(BaseProcessor):
 
         """
 
-        logging.debug(f'Task callback: {task["callback"]}')
+        logger.debug('Consuming task ...')
+        
+        # Gets the information needed
+        pdf_url = task['pdf_url']
+        pdf_path = c.PATH + os.path.basename(pdf_url)
+
+        # Downloads a file
+        l.download_file(pdf_url, pdf_path)
+
+        # Adds imoprtant information to the callback
+        task['callback']['status'] = 'success'
+        task['callback']['pdf_path'] = pdf_path
+
+        logger.debug(f'Task callback: {task["callback"]}')

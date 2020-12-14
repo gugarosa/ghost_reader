@@ -2,6 +2,8 @@ import datetime
 import logging
 import os
 
+logger = logging.getLogger(__name__)
+
 
 class BaseProcessor:
     """Consumes any type of tasks.
@@ -21,16 +23,16 @@ class BaseProcessor:
 
         # Tries to consume the task
         try:
-            logging.debug('Sending task to worker ...')
+            logger.debug('Sending task to worker ...')
 
             # Consumes the task
             self._invoke_consume(task)
 
-            logging.debug('Worker has finished the task.')
+            logger.debug('Worker has finished the task.')
 
         # If an exception has happened, logs it
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
 
     def _invoke_consume(self, task):
         """Runs the actual task.
