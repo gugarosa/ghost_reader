@@ -29,8 +29,4 @@ class ExtractProcessor(BaseProcessor):
 
         """
 
-        import time
-
-        time.sleep(10)
-
         logging.debug(f'Task callback: {task["callback"]}')
