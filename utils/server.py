@@ -2,6 +2,8 @@ import logging
 
 from tornado.web import Application
 
+import utils.constants as c
+
 
 class Server(Application):
     """It instantiates and boostraps all application-related services.
@@ -15,6 +17,11 @@ class Server(Application):
         default settings from Tornado.
 
         """
+
+        # Defines own arguments to be avaliable for the class
+        args = {
+            'config': c.config
+        }
 
         # Defines the handlers that will handle the requests
         handlers = [
