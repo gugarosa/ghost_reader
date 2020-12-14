@@ -1,2 +1,3 @@
+GPUtil>=1.4.0
 pdfminer.six>=20201018
 tornado>=6.1
