@@ -2,6 +2,8 @@ import datetime
 import logging
 import os
 
+from pdfminer.high_level import extract_text
+
 import utils.constants as c
 import utils.loader as l
 from processors.base import BaseProcessor
@@ -42,8 +44,12 @@ class ExtractProcessor(BaseProcessor):
         # Downloads a file
         l.download_file(pdf_url, pdf_path)
 
+        # Extracting text from file
+        text = extract_text(pdf_path)
+
         # Adds imoprtant information to the callback
         task['callback']['status'] = 'success'
         task['callback']['pdf_path'] = pdf_path
+        task['callback']['text'] = text
 
         logger.debug(f'Task callback: {task["callback"]}')
