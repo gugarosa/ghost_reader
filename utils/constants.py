@@ -6,9 +6,12 @@ config.read('config.ini')
 
 # Gathering and defining constants
 # Server-related
-PORT = config.get('SERVER', 'PORT')
-PATH = config.get('SERVER', 'PATH')
-WORKERS = config.get('SERVER', 'WORKERS')
+SERVER_PORT = config.get('SERVER', 'PORT')
+SERVER_PATH = config.get('SERVER', 'PATH')
+SERVER_WORKERS = config.get('SERVER', 'WORKERS')
+
+# Database-related
+DB_NAME = config.get('DB', 'NAME')
 
 # GPU-related
 GPU_MAX_LOAD = config.get('GPU', 'MAX_LOAD')

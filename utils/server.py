@@ -7,6 +7,8 @@ import utils.constants as c
 from handlers.extract import ExtractHandler
 from utils.process_manager import ProcessManager
 
+from mongoengine import connect
+
 logger = logging.getLogger(__name__)
 
 
@@ -15,11 +17,14 @@ class Server(Application):
 
     """
 
-    def __init__(self):
+    def __init__(self, database=None):
         """Initialization method.
 
         Note that you will need to set your own arguments, handlers and
         default settings from Tornado.
+
+        Args:
+            database (str): Database's identifier is it supposed to connect to it.
 
         """
 
@@ -27,7 +32,7 @@ class Server(Application):
         self.process_manager = ProcessManager()
 
         # Creates a pool of workers
-        self.pool = ProcessPoolExecutor(max_workers=int(c.WORKERS))
+        self.pool = ProcessPoolExecutor(max_workers=int(c.SERVER_WORKERS))
 
         # Defines own arguments to be avaliable for the class
         args = {
@@ -42,6 +47,26 @@ class Server(Application):
 
         # Overriding the application class
         super(Server, self).__init__(handlers, debug=True, autoreload=True)
+
+        # Attempts to connect to the database
+        self._connect_database(database)
+
+    def _connect_database(self, db):
+        """Performs a direct connection to the database.
+
+        Args:
+            database (str): Database's identifier is it supposed to connect to it.
+            
+        """
+
+        # Checks if it is supposed to connect to a database
+        if db:
+            logger.debug(f'Connecting to database: {db}')
+
+            # Connects to the database
+            connect(db)
+
+            logger.debug('Database connected.')
 
     def shutdown(self, blocking_call=True):
         """Closes the worker pools.

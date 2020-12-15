@@ -8,6 +8,8 @@ from tornado.ioloop import IOLoop
 import utils.constants as c
 from utils.server import Server
 
+from mongoengine import *
+
 # Enables logging and gets its object
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -32,16 +34,21 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, _signal_handler)
 
     # Logs its port
-    logging.debug(f'Port: {c.PORT}')
+    logging.debug(f'Port: {c.SERVER_PORT}')
 
     # Creates an application
-    app = Server()
+    app = Server(database=c.DB_NAME)
+
+    class Group(Document):
+        name = StringField()
+
+    Group(name='test').save()  # Saves in the default db
 
     # Adds an autoreload hook in order to properly shutdown the workers pool
     autoreload.add_reload_hook(lambda: app.shutdown())
 
     # Servers the application on desired port
-    app.listen(c.PORT)
+    app.listen(c.SERVER_PORT)
 
     # Starts a IOLoop instance
     IOLoop.current().start()

@@ -39,7 +39,7 @@ class ExtractProcessor(BaseProcessor):
         
         # Gets the information needed
         pdf_url = task['pdf_url']
-        pdf_path = c.PATH + os.path.basename(pdf_url)
+        pdf_path = c.SERVER_PATH + os.path.basename(pdf_url)
 
         # Downloads a file
         l.download_file(pdf_url, pdf_path)
