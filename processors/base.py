@@ -29,6 +29,9 @@ class BaseProcessor:
         try:
             logger.debug('Sending task to worker ...')
 
+            # Connects the process to the database
+            connect(c.DB_ALIAS)
+
             # Register the task and gathers its identifier
             _id = self._register_task(task)
 

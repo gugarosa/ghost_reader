@@ -1,4 +1,8 @@
+import logging
+import datetime
+
 from models.detection import Detection
+from models.extraction import Extraction
 from processors.base import BaseProcessor
 
 logger = logging.getLogger(__name__)
@@ -28,7 +32,17 @@ class DetectProcessor(BaseProcessor):
 
         """
 
-        pass
+        # Gathers the correlated extraction object
+        e = Extraction.objects.get(id=task['_id'])
+
+        # Creates a detection object
+        d = Detection(extraction=e, status='started', created_at=datetime.datetime.utcnow,
+                      updated_at=datetime.datetime.utcnow)
+
+        # Saves to the database
+        d.save()
+
+        return d.id
 
     def _invoke_consume(self, _id, task):
         """Runs the actual learning job.
@@ -43,4 +57,16 @@ class DetectProcessor(BaseProcessor):
 
         """
 
-        pass
+        logger.debug('Consuming task ...')
+
+        # Gathers the object, update its attributes and
+        d = Detection.objects.get(id=_id)
+
+        # Update its attributes
+        d.status = 'success'
+        d.updated_at = datetime.datetime.utcnow
+
+        # Saves to the db
+        d.save()
+
+        logger.debug('Task consumed.')

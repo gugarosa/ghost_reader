@@ -82,4 +82,4 @@ class ExtractProcessor(BaseProcessor):
         # Saves to the db
         e.save()
 
-        logger.debug(f'Task consumed.')
+        logger.debug('Task consumed.')

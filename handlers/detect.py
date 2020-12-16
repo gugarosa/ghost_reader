@@ -28,3 +28,47 @@ class DetectHandler(BaseHandler):
 
         # Actually sets the configuration to the request
         self.set_config(**kwargs)
+
+    async def post(self):
+        """It defines the POST request for this handler.
+
+        Returns:
+            It will return either 'True' or 'False' along with a 'success' or an 'error' response.
+
+        """
+
+        # Gets the request
+        req = tornado.escape.json_decode(self.request.body)
+
+        # Gathering the request meta-information
+        _id = req['_id']
+
+        # Creating the data object
+        data = {
+            '_id': _id
+        }
+
+        # Tries to add a new process to the pool
+        try:
+            logger.debug('Adding extract task to the pool ...')
+
+            # Adding process to the pool
+            self.process_manager.add_process({
+                'target': self.processor,
+                'data': data
+            })
+
+        # If process could not be added to the pool, reply with an error
+        except Exception as e:
+            logger.exception(e)
+
+            # Sets status  to error and writes back
+            self.set_status(500)
+            self.finish(self.handle_response(TASK_IDENTIFIER, 'error'))
+
+            return False
+
+        # Writes back a success message
+        self.finish(self.handle_response(TASK_IDENTIFIER, 'success'))
+
+        return True

@@ -1,14 +1,18 @@
 import datetime
 
-from mongoengine import DateTimeField, Document, StringField
+from mongoengine import DateTimeField, Document, ReferenceField, StringField
+
+from models.extraction import Extraction
 
 
 class Detection(Document):
-    """An document that holds an detection meta-information.
+    """A document that holds a detection meta-information.
 
     """
 
     # Detect-related attributes
+    local_path = StringField()
+    extraction = ReferenceField(Extraction)
     status = StringField(required=True)
 
     # Date-related attributes

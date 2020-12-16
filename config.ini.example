@@ -4,6 +4,7 @@ PATH=/data
 WORKERS=1
 
 [DB]
+ALIAS=ghost
 HOST=mongodb://localhost/ghost
 
 [GPU]

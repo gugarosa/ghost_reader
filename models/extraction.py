@@ -4,7 +4,7 @@ from mongoengine import DateTimeField, Document, StringField
 
 
 class Extraction(Document):
-    """An document that holds an extraction meta-information.
+    """A document that holds an extraction meta-information.
 
     """
 

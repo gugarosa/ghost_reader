@@ -1,11 +1,12 @@
 import logging
 from concurrent.futures import ProcessPoolExecutor
 
-from mongoengine import connect
+from mongoengine import connect, register_connection
 from pymongo.errors import ServerSelectionTimeoutError
 from tornado.web import Application
 
 import utils.constants as c
+from handlers.detect import DetectHandler
 from handlers.extract import ExtractHandler
 from utils.process_manager import ProcessManager
 
@@ -25,8 +26,8 @@ class Server(Application):
 
         """
 
-        # Connects to the database
-        client = self.connect_database()
+        # Registers a connection to the database
+        alias = self.register_database(c.DB_ALIAS)
 
         # Defines the process manager
         self.process_manager = ProcessManager()
@@ -37,23 +38,21 @@ class Server(Application):
         # Defines own arguments to be avaliable for the class
         args = {
             'config': c.config,
-            'db': client,
+            'db': alias,
             'process_manager': self.process_manager
         }
 
         # Defines the handlers that will handle the requests
         handlers = [
-            (r'/api/extract', ExtractHandler, args),
+            (r'/api/detect', DetectHandler, args),
+            (r'/api/extract', ExtractHandler, args)
         ]
 
         # Overriding the application class
         super(Server, self).__init__(handlers, debug=True, autoreload=True)
 
-    def connect_database(self):
+    def register_database(self, alias):
         """Performs a direct connection to the database.
-
-        Returns:
-            A connected client.
 
         """
 
@@ -62,12 +61,11 @@ class Server(Application):
         # Attempts to connect to the database
         try:
             # Connects to the db and perform a check
-            client = connect(host=c.DB_HOST, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
-            client.server_info()
+            register_connection(alias=alias, host=c.DB_HOST, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
 
             logger.debug('Database connected.')
 
-            return client
+            return alias
 
         # If an error occurs
         except ServerSelectionTimeoutError as e:
