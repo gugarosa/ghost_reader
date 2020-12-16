@@ -6,9 +6,8 @@ from tornado import autoreload
 from tornado.ioloop import IOLoop
 
 import utils.constants as c
+from models.extraction import Extraction
 from utils.server import Server
-
-from mongoengine import *
 
 # Enables logging and gets its object
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -37,12 +36,10 @@ if __name__ == '__main__':
     logging.debug(f'Port: {c.SERVER_PORT}')
 
     # Creates an application
-    app = Server(database=c.DB_NAME)
+    app = Server()
 
-    class Group(Document):
-        name = StringField()
-
-    Group(name='test').save()  # Saves in the default db
+    # Connects to the database
+    app.connect_database(connection_time=c.DB_CONNECTION_TIME)
 
     # Adds an autoreload hook in order to properly shutdown the workers pool
     autoreload.add_reload_hook(lambda: app.shutdown())

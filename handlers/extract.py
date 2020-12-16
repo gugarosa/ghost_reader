@@ -42,10 +42,7 @@ class ExtractHandler(BaseHandler):
 
         # Creating the data object
         data = {
-            'pdf_url': pdf_url,
-            'callback': {
-                'start_time': datetime.datetime.utcnow().isoformat()
-            }
+            'pdf_url': pdf_url
         }
 
         # Tries to add a new process to the pool

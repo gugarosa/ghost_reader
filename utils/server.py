@@ -1,13 +1,13 @@
 import logging
 from concurrent.futures import ProcessPoolExecutor
 
+from mongoengine import connect
+from pymongo.errors import ServerSelectionTimeoutError
 from tornado.web import Application
 
 import utils.constants as c
 from handlers.extract import ExtractHandler
 from utils.process_manager import ProcessManager
-
-from mongoengine import connect
 
 logger = logging.getLogger(__name__)
 
@@ -17,14 +17,11 @@ class Server(Application):
 
     """
 
-    def __init__(self, database=None):
+    def __init__(self):
         """Initialization method.
 
         Note that you will need to set your own arguments, handlers and
         default settings from Tornado.
-
-        Args:
-            database (str): Database's identifier is it supposed to connect to it.
 
         """
 
@@ -48,25 +45,27 @@ class Server(Application):
         # Overriding the application class
         super(Server, self).__init__(handlers, debug=True, autoreload=True)
 
-        # Attempts to connect to the database
-        self._connect_database(database)
-
-    def _connect_database(self, db):
+    def connect_database(self, connection_time=5):
         """Performs a direct connection to the database.
 
         Args:
-            database (str): Database's identifier is it supposed to connect to it.
-            
+            connection_time (int): Amount of seconds to wait for a connection.
+
         """
 
-        # Checks if it is supposed to connect to a database
-        if db:
-            logger.debug(f'Connecting to database: {db}')
+        logger.debug(f'Connecting to host: {c.DB_HOST}')
 
-            # Connects to the database
-            connect(db)
+        # Attempts to connect to the database
+        try:
+            # Connects to the db and perform a check
+            client = connect(host=c.DB_HOST, serverSelectionTimeoutMS=connection_time)
+            client.server_info()
 
             logger.debug('Database connected.')
+
+        # If an error occurs
+        except ServerSelectionTimeoutError as e:
+            logger.error(e)
 
     def shutdown(self, blocking_call=True):
         """Closes the worker pools.

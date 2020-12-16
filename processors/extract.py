@@ -6,6 +6,7 @@ from pdfminer.high_level import extract_text
 
 import utils.constants as c
 import utils.loader as l
+from models.extraction import Extraction
 from processors.base import BaseProcessor
 
 logger = logging.getLogger(__name__)
@@ -18,12 +19,33 @@ class ExtractProcessor(BaseProcessor):
 
     def __init__(self):
         """Initialization method.
+
         """
 
         # Overriding the parent class
         super(ExtractProcessor, self).__init__()
 
-    def _invoke_consume(self, task):
+    def _register_task(self, task):
+        """Registers a task into the database.
+
+        Args:
+            task (dict): The task to be consumed.
+
+        Returns:
+            The task's identifier.
+
+        """
+
+        # Creates an extraction object
+        e = Extraction(url=task['pdf_url'], status='started', created_at=datetime.datetime.utcnow,
+                       updated_at=datetime.datetime.utcnow)
+
+        # Saves to the database
+        e.save()
+
+        return e.id
+
+    def _invoke_consume(self, _id, task):
         """Runs the actual learning job.
 
         This method runs on multiple parallel executors, which can be either threads or processes.
@@ -31,12 +53,13 @@ class ExtractProcessor(BaseProcessor):
         cython sub-objects).
 
         Args:
+            _id (str): Hex string holding the task's id.
             task (dict): The task to be consumed.
 
         """
 
         logger.debug('Consuming task ...')
-        
+
         # Gets the information needed
         pdf_url = task['pdf_url']
         pdf_path = c.SERVER_PATH + os.path.basename(pdf_url)
@@ -47,9 +70,16 @@ class ExtractProcessor(BaseProcessor):
         # Extracting text from file
         text = extract_text(pdf_path)
 
-        # Adds imoprtant information to the callback
-        task['callback']['status'] = 'success'
-        task['callback']['pdf_path'] = pdf_path
-        task['callback']['text'] = text
+        # Gathers the object, update its attributes and
+        e = Extraction.objects.get(id=_id)
 
-        logger.debug(f'Task callback: {task["callback"]}')
+        # Update its attributes
+        e.text = text
+        e.local_path = pdf_path
+        e.status = 'success'
+        e.updated_at = datetime.datetime.utcnow
+
+        # Saves to the db
+        e.save()
+
+        logger.debug(f'Task consumed.')
