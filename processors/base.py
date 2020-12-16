@@ -9,7 +9,6 @@ import utils.constants as c
 logger = logging.getLogger(__name__)
 
 
-
 class BaseProcessor:
     """Consumes any type of tasks.
 
@@ -29,9 +28,6 @@ class BaseProcessor:
         # Tries to consume the task
         try:
             logger.debug('Sending task to worker ...')
-            
-            # Connects to the database
-            connect(host=c.DB_HOST)
 
             # Register the task and gathers its identifier
             _id = self._register_task(task)

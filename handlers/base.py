@@ -6,13 +6,14 @@ class BaseHandler(RequestHandler):
 
     """
 
-    def initialize(self, **kwargs):
-        """It serves as the basic initializer of every incoming request.
+    def set_config(self, **kwargs):
+        """Sets a configuration object to the class itself.
 
         """
 
         # Defining the configuration object
-        self.config = kwargs.get('config')
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
     def set_default_headers(self):
         """Sets the default response headers for an incoming request.

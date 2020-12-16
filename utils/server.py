@@ -25,6 +25,9 @@ class Server(Application):
 
         """
 
+        # Connects to the database
+        client = self.connect_database()
+
         # Defines the process manager
         self.process_manager = ProcessManager()
 
@@ -34,6 +37,7 @@ class Server(Application):
         # Defines own arguments to be avaliable for the class
         args = {
             'config': c.config,
+            'db': client,
             'process_manager': self.process_manager
         }
 
@@ -45,11 +49,11 @@ class Server(Application):
         # Overriding the application class
         super(Server, self).__init__(handlers, debug=True, autoreload=True)
 
-    def connect_database(self, connection_time=5):
+    def connect_database(self):
         """Performs a direct connection to the database.
 
-        Args:
-            connection_time (int): Amount of seconds to wait for a connection.
+        Returns:
+            A connected client.
 
         """
 
@@ -58,10 +62,12 @@ class Server(Application):
         # Attempts to connect to the database
         try:
             # Connects to the db and perform a check
-            client = connect(host=c.DB_HOST, serverSelectionTimeoutMS=connection_time)
+            client = connect(host=c.DB_HOST, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
             client.server_info()
 
             logger.debug('Database connected.')
+
+            return client
 
         # If an error occurs
         except ServerSelectionTimeoutError as e:

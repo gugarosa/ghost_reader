@@ -2,7 +2,9 @@ import datetime
 import logging
 
 import tornado
+from mongoengine import connect
 
+import utils.constants as c
 from handlers.base import BaseHandler
 from processors.extract import ExtractProcessor
 
@@ -17,14 +19,20 @@ class ExtractHandler(BaseHandler):
     """
 
     def initialize(self, **kwargs):
-        """Initializes the current handler.
+        """Basic initializer of every incoming request.
 
         """
 
-        # Gathers the config, process manager and processor objects
-        self.config = kwargs.get('config')
-        self.process_manager = kwargs.get('process_manager')
-        self.processor = ExtractProcessor
+        # Defines extra key-word arguments
+        kwargs['processor'] = ExtractProcessor
+
+        # Actually sets the configuration to the request
+        self.set_config(**kwargs)
+
+    async def get(self):
+        """It defines the GET request for this handler.
+
+        """
 
     async def post(self):
         """It defines the POST request for this handler.

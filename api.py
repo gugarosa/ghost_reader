@@ -38,9 +38,6 @@ if __name__ == '__main__':
     # Creates an application
     app = Server()
 
-    # Connects to the database
-    app.connect_database(connection_time=c.DB_CONNECTION_TIME)
-
     # Adds an autoreload hook in order to properly shutdown the workers pool
     autoreload.add_reload_hook(lambda: app.shutdown())
 
