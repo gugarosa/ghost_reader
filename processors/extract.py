@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class ExtractProcessor(BaseProcessor):
-    """A TrainerProcessor class is in charge of consuming the learning task.
+    """An ExtractProcessor is in charge of consuming the learning task.
 
     """
 
