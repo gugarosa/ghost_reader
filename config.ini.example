@@ -1,12 +1,16 @@
 [SERVER]
 PORT=8080
-PATH=/data
+PATH=data/
 WORKERS=1
 
 [DB]
 ALIAS=ghost
 HOST=mongodb://localhost/ghost
+CONNECTION_TIME=1
 
 [GPU]
 MAX_LOAD=10
 MAX_MEMORY=100
+
+[SPEECH]
+LANGUAGE=en_US

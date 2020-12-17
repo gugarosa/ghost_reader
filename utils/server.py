@@ -56,14 +56,14 @@ class Server(Application):
 
         """
 
-        logger.debug(f'Connecting to host: {c.DB_HOST}')
+        logger.debug(f'Registering host: {c.DB_HOST}')
 
         # Attempts to connect to the database
         try:
             # Connects to the db and perform a check
             register_connection(alias=alias, host=c.DB_HOST, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
 
-            logger.debug('Database connected.')
+            logger.debug('Host registered.')
 
             return alias
 

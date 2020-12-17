@@ -1,9 +1,13 @@
+import os
 import logging
 import datetime
 
 from models.detection import Detection
 from models.extraction import Extraction
 from processors.base import BaseProcessor
+from utils.speecher import Speecher
+
+import utils.constants as c
 
 logger = logging.getLogger(__name__)
 
@@ -59,10 +63,23 @@ class DetectProcessor(BaseProcessor):
 
         logger.debug('Consuming task ...')
 
-        # Gathers the object, update its attributes and
+        # Gathers the object
         d = Detection.objects.get(id=_id)
 
+        # Gathers the local file path
+        local_path = d.extraction.local_path + '.ogg'
+
+        # Initializes the text-to-speecher
+        s = Speecher(language=c.SPEECH_LANGUAGE)
+
+        # Saves the desired text to a file
+        s.save(d.extraction.text, local_path)
+
+        # Runs the speecher
+        s.run()
+
         # Update its attributes
+        d.local_path = local_path
         d.status = 'success'
         d.updated_at = datetime.datetime.utcnow
 
