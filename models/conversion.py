@@ -5,12 +5,12 @@ from mongoengine import DateTimeField, Document, ReferenceField, StringField
 from models.extraction import Extraction
 
 
-class Detection(Document):
-    """A document that holds a detection meta-information.
+class Conversion(Document):
+    """A document that holds a conversion meta-information.
 
     """
 
-    # Detect-related attributes
+    # Convert-related attributes
     local_path = StringField()
     extraction = ReferenceField(Extraction)
     status = StringField(required=True)

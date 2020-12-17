@@ -6,15 +6,15 @@ from mongoengine import connect
 
 import utils.constants as c
 from handlers.base import BaseHandler
-from processors.detect import DetectProcessor
+from processors.convert import ConvertProcessor
 
 # Creates a constant that defines the type of task
-TASK_IDENTIFIER = 'detect'
+TASK_IDENTIFIER = 'convert'
 
 logger = logging.getLogger(__name__)
 
 class DetectHandler(BaseHandler):
-    """Defines all possible methods for detect information (text) to voice (audio).
+    """Defines all possible methods for converting information (text) to voice (audio).
 
     """
 
@@ -24,7 +24,7 @@ class DetectHandler(BaseHandler):
         """
 
         # Defines extra key-word arguments
-        kwargs['processor'] = DetectProcessor
+        kwargs['processor'] = ConvertProcessor
 
         # Actually sets the configuration to the request
         self.set_config(**kwargs)
@@ -50,7 +50,7 @@ class DetectHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logger.debug('Adding extract task to the pool ...')
+            logger.debug('Adding convert task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process({
