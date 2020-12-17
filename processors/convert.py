@@ -67,10 +67,10 @@ class ConvertProcessor(BaseProcessor):
         cs = Conversion.objects.get(id=_id)
 
         # Gathers the local file path
-        local_path = cs.extraction.local_path + '.ogg'
+        local_path = cs.extraction.local_path + '_' + task['language'] + '.ogg'
 
         # Initializes the text-to-speecher
-        s = Speecher(language=c.SPEECH_LANGUAGE)
+        s = Speecher(language=task['language'])
 
         # Saves the desired text to a file
         s.save(cs.extraction.text, local_path)

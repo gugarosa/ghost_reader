@@ -42,10 +42,12 @@ class DetectHandler(BaseHandler):
 
         # Gathering the request meta-information
         _id = req['_id']
+        language = req['language']
 
         # Creating the data object
         data = {
-            '_id': _id
+            '_id': _id,
+            'language': language
         }
 
         # Tries to add a new process to the pool

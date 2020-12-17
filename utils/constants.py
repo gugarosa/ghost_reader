@@ -18,6 +18,3 @@ DB_HOST = config.get('DB', 'HOST')
 # GPU-related
 GPU_MAX_LOAD = config.get('GPU', 'MAX_LOAD')
 GPU_MAX_MEMORY = config.get('GPU', 'MAX_MEMORY')
-
-# Speech-related
-SPEECH_LANGUAGE = config.get('SPEECH', 'LANGUAGE')
