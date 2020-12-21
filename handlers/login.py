@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import hmac
 import logging
 
 import jwt
@@ -42,7 +43,7 @@ class LoginHandler(BaseHandler):
 
         # Gathering the request meta-information
         username = req['username']
-        password = hashlib.sha256(req['password'].encode()).hexdigest()
+        password = hmac.new(c.SERVER_SECRET.encode(), req['password'].encode(), hashlib.sha256).hexdigest()
 
         try:
             # Gathers the correlated user object

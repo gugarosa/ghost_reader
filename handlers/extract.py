@@ -2,9 +2,7 @@ import datetime
 import logging
 
 import tornado
-from mongoengine import connect
 
-import utils.constants as c
 from handlers import BaseHandler
 from processors import ExtractProcessor
 
