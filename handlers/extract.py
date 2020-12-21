@@ -13,6 +13,7 @@ TASK_IDENTIFIER = 'extract'
 
 logger = logging.getLogger(__name__)
 
+
 class ExtractHandler(BaseHandler):
     """Defines all possible methods for extract information (text) from a PDF.
 
@@ -33,6 +34,8 @@ class ExtractHandler(BaseHandler):
         """It defines the GET request for this handler.
 
         """
+
+        pass
 
     async def post(self):
         """It defines the POST request for this handler.
@@ -55,7 +58,7 @@ class ExtractHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logger.debug('Adding extract task to the pool ...')
+            logger.debug(f'Adding {TASK_IDENTIFIER} task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process({
@@ -67,7 +70,7 @@ class ExtractHandler(BaseHandler):
         except Exception as e:
             logger.exception(e)
 
-            # Sets status  to error and writes back
+            # Sets status to error and writes back
             self.set_status(500)
             self.finish(self.handle_response(TASK_IDENTIFIER, 'error'))
 

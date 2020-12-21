@@ -46,3 +46,22 @@ class BaseHandler(RequestHandler):
         }
 
         return res
+
+    def get_token(self):
+        """Gets the authorization token from the request.
+
+        Returns:
+            The requested token.
+            
+        """
+
+        try:
+            # Gathering authorization token
+            token = self.request.headers.get('Authorization').split(' ')[1]
+
+        # If there is no token in the request
+        except:
+            # We apply an empty string as the token
+            token = ''
+
+        return token

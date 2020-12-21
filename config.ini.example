@@ -1,6 +1,7 @@
 [SERVER]
 PORT=8080
 PATH=data/
+SECRET=thisshouldbealongsecret
 WORKERS=1
 
 [DB]

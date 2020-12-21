@@ -1,13 +1,12 @@
-import os
-import logging
 import datetime
+import logging
+import os
 
+import utils.constants as c
 from models.conversion import Conversion
 from models.extraction import Extraction
 from processors.base import BaseProcessor
 from utils.speecher import Speecher
-
-import utils.constants as c
 
 logger = logging.getLogger(__name__)
 
@@ -37,11 +36,11 @@ class ConvertProcessor(BaseProcessor):
         """
 
         # Gathers the correlated extraction object
-        e = Extraction.objects.get(id=task['_id'])
+        e = Extraction.objects.get(id=task['extraction_id'])
 
         # Creates a conversion object
         cs = Conversion(extraction=e, status='started', created_at=datetime.datetime.utcnow,
-                      updated_at=datetime.datetime.utcnow)
+                        updated_at=datetime.datetime.utcnow)
 
         # Saves to the database
         cs.save()

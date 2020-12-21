@@ -8,6 +8,7 @@ from tornado.web import Application
 import utils.constants as c
 from handlers.convert import DetectHandler
 from handlers.extract import ExtractHandler
+from handlers.register import RegisterHandler
 from utils.process_manager import ProcessManager
 
 logger = logging.getLogger(__name__)
@@ -45,7 +46,8 @@ class Server(Application):
         # Defines the handlers that will handle the requests
         handlers = [
             (r'/api/convert', DetectHandler, args),
-            (r'/api/extract', ExtractHandler, args)
+            (r'/api/extract', ExtractHandler, args),
+            (r'/api/register', RegisterHandler, args),
         ]
 
         # Overriding the application class

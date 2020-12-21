@@ -13,6 +13,7 @@ TASK_IDENTIFIER = 'convert'
 
 logger = logging.getLogger(__name__)
 
+
 class DetectHandler(BaseHandler):
     """Defines all possible methods for converting information (text) to voice (audio).
 
@@ -41,18 +42,18 @@ class DetectHandler(BaseHandler):
         req = tornado.escape.json_decode(self.request.body)
 
         # Gathering the request meta-information
-        _id = req['_id']
+        extraction_id = req['extraction_id']
         language = req['language']
 
         # Creating the data object
         data = {
-            '_id': _id,
+            'extraction_id': extraction_id,
             'language': language
         }
 
         # Tries to add a new process to the pool
         try:
-            logger.debug('Adding convert task to the pool ...')
+            logger.debug(f'Adding {TASK_IDENTIFIER} task to the pool ...')
 
             # Adding process to the pool
             self.process_manager.add_process({

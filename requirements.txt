@@ -1,4 +1,5 @@
 GPUtil>=1.4.0
 pdfminer.six>=20201018
+pyJWT>=1.7.1
 pyttsx>=2.90
 tornado>=6.1

@@ -8,6 +8,7 @@ config.read('config.ini')
 # Server-related
 SERVER_PORT = config.get('SERVER', 'PORT')
 SERVER_PATH = config.get('SERVER', 'PATH')
+SERVER_SECRET = config.get('SERVER', 'SECRET')
 SERVER_WORKERS = config.get('SERVER', 'WORKERS')
 
 # Database-related
