@@ -6,9 +6,8 @@ from pymongo.errors import ServerSelectionTimeoutError
 from tornado.web import Application
 
 import utils.constants as c
-from handlers.convert import DetectHandler
-from handlers.extract import ExtractHandler
-from handlers.register import RegisterHandler
+from handlers import (ConvertHandler, ExtractHandler, LoginHandler,
+                      RegisterHandler)
 from utils.process_manager import ProcessManager
 
 logger = logging.getLogger(__name__)
@@ -45,8 +44,9 @@ class Server(Application):
 
         # Defines the handlers that will handle the requests
         handlers = [
-            (r'/api/convert', DetectHandler, args),
+            (r'/api/convert', ConvertHandler, args),
             (r'/api/extract', ExtractHandler, args),
+            (r'/api/login', LoginHandler, args),
             (r'/api/register', RegisterHandler, args),
         ]
 
@@ -63,7 +63,8 @@ class Server(Application):
         # Attempts to connect to the database
         try:
             # Connects to the db and perform a check
-            register_connection(alias=alias, host=c.DB_HOST, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
+            register_connection(alias=alias, host=c.DB_HOST,
+                                serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
 
             logger.debug('Host registered.')
 

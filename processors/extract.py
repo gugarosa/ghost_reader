@@ -6,7 +6,7 @@ from pdfminer.high_level import extract_text
 
 import utils.constants as c
 import utils.loader as l
-from models.extraction import Extraction
+from models import Extraction
 from processors.base import BaseProcessor
 
 logger = logging.getLogger(__name__)

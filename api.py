@@ -6,7 +6,6 @@ from tornado import autoreload
 from tornado.ioloop import IOLoop
 
 import utils.constants as c
-from models.extraction import Extraction
 from utils.server import Server
 
 # Enables logging and gets its object

@@ -6,8 +6,8 @@ import tornado
 from mongoengine import connect
 
 import utils.constants as c
-from handlers.base import BaseHandler
-from models.user import User
+from handlers import BaseHandler
+from models import User
 
 logger = logging.getLogger(__name__)
 

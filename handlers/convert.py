@@ -5,8 +5,8 @@ import tornado
 from mongoengine import connect
 
 import utils.constants as c
-from handlers.base import BaseHandler
-from processors.convert import ConvertProcessor
+from handlers import BaseHandler
+from processors import ConvertProcessor
 
 # Creates a constant that defines the type of task
 TASK_IDENTIFIER = 'convert'
@@ -14,7 +14,7 @@ TASK_IDENTIFIER = 'convert'
 logger = logging.getLogger(__name__)
 
 
-class DetectHandler(BaseHandler):
+class ConvertHandler(BaseHandler):
     """Defines all possible methods for converting information (text) to voice (audio).
 
     """
@@ -53,8 +53,6 @@ class DetectHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logger.debug(f'Adding {TASK_IDENTIFIER} task to the pool ...')
-
             # Adding process to the pool
             self.process_manager.add_process({
                 'target': self.processor,

@@ -1,4 +1,8 @@
+import logging
+
 from tornado.web import RequestHandler
+
+logger = logging.getLogger(__name__)
 
 
 class BaseHandler(RequestHandler):
@@ -45,6 +49,9 @@ class BaseHandler(RequestHandler):
             response_type: f'A {task} task is being added to the pool.'
         }
 
+        # Logs the information
+        logger.debug(res[response_type])
+
         return res
 
     def get_token(self):
@@ -52,7 +59,7 @@ class BaseHandler(RequestHandler):
 
         Returns:
             The requested token.
-            
+
         """
 
         try:

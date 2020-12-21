@@ -1,17 +1,33 @@
+import datetime
 import hashlib
-from datetime import datetime, timedelta
+import logging
 
 import jwt
 import tornado
+from mongoengine import connect
 
-from handlers.base import BaseHandler
-from models.user import User
+import utils.constants as c
+from handlers import BaseHandler
+from models import User
+
+logger = logging.getLogger(__name__)
 
 
 class LoginHandler(BaseHandler):
     """Defines all the activity prior to the user entering the system.
 
     """
+
+    def initialize(self, **kwargs):
+        """Basic initializer of every incoming request.
+
+        """
+
+        # Actually sets the configuration to the request
+        self.set_config(**kwargs)
+
+        # Connects the process to the database
+        connect(c.DB_ALIAS)
 
     async def post(self):
         """It defines the POST request for this handler.
@@ -21,51 +37,39 @@ class LoginHandler(BaseHandler):
 
         """
 
+        # Gets the request
+        req = tornado.escape.json_decode(self.request.body)
+
+        # Gathering the request meta-information
+        username = req['username']
+        password = hashlib.sha256(req['password'].encode()).hexdigest()
+
         try:
-            # Getting authentication object
-            res = tornado.escape.json_decode(self.request.body)
+            # Gathers the correlated user object
+            u = User.objects.get(username=username, password=password)
 
-            # Recovering username
-            username = res['username']
+            # Defining the payload to further encode into a token
+            payload = {
+                'username': u.username,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=3600)
+            }
 
-            # Encoding password
-            password = hashlib.sha256(res['password'].encode()).hexdigest()
+            # Encoding payload in a token
+            token = jwt.encode(payload, c.SERVER_SECRET, algorithm='HS256')
 
-        # If authentication object was not found, reply with an error
+            # Logs and writes back the token
+            logger.debug(token)
+            self.write(dict(success=token.decode()))
+
+            return True
+
         except:
-            # Setting status to bad request
-            self.set_status(400)
+            # Defines a response message
+            msg = 'Invalid credentials.'
 
-            # Writing back an error message
-            self.write(dict(error='Missing either username or password.'))
-
-            return False
-
-        # Performing query in database to check if user exists
-        query = self.db(User).find_one(
-            {'username': username, 'password': str(password)})
-
-        # If user does not exists
-        if not query:
-            # Reply with an unauthorized error
+            # Sets status to error, logs and writes back
+            logger.debug(msg)
             self.set_status(401)
-
-            # Writing an error message
-            self.write(dict(error='Invalid credentials.'))
+            self.finish(dict(error=msg))
 
             return False
-
-        # Defining the payload to further encode into a token
-        payload = {
-            'username': query.username,
-            'exp': datetime.utcnow() + timedelta(seconds=3600)
-        }
-
-        # Encoding payload in a token
-        token = jwt.encode(payload, self.config.get(
-            'API', 'SECRET'), algorithm='HS256')
-
-        # Writing token back
-        self.write(dict(success=token.decode()))
-
-        return True

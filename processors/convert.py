@@ -3,8 +3,7 @@ import logging
 import os
 
 import utils.constants as c
-from models.conversion import Conversion
-from models.extraction import Extraction
+from models import Conversion, Extraction
 from processors.base import BaseProcessor
 from utils.speecher import Speecher
 

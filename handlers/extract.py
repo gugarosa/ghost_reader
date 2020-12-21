@@ -5,8 +5,8 @@ import tornado
 from mongoengine import connect
 
 import utils.constants as c
-from handlers.base import BaseHandler
-from processors.extract import ExtractProcessor
+from handlers import BaseHandler
+from processors import ExtractProcessor
 
 # Creates a constant that defines the type of task
 TASK_IDENTIFIER = 'extract'
@@ -30,13 +30,6 @@ class ExtractHandler(BaseHandler):
         # Actually sets the configuration to the request
         self.set_config(**kwargs)
 
-    async def get(self):
-        """It defines the GET request for this handler.
-
-        """
-
-        pass
-
     async def post(self):
         """It defines the POST request for this handler.
 
@@ -58,8 +51,6 @@ class ExtractHandler(BaseHandler):
 
         # Tries to add a new process to the pool
         try:
-            logger.debug(f'Adding {TASK_IDENTIFIER} task to the pool ...')
-
             # Adding process to the pool
             self.process_manager.add_process({
                 'target': self.processor,
