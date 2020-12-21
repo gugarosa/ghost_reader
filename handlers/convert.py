@@ -3,6 +3,7 @@ import logging
 
 import tornado
 
+from decorators.authentication import authenticate_user
 from handlers import BaseHandler
 from processors import ConvertProcessor
 
@@ -28,6 +29,7 @@ class ConvertHandler(BaseHandler):
         # Actually sets the configuration to the request
         self.set_config(**kwargs)
 
+    @authenticate_user()
     async def post(self):
         """It defines the POST request for this handler.
 

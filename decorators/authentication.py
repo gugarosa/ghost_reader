@@ -1,12 +1,15 @@
 import base64
 import json
+import logging
 
 import jwt
 
 import utils.constants as c
 
+logger = logging.getLogger(__name__)
 
-def auth():
+
+def authenticate_user():
     """Checks whether the request is authenticated or not.
 
     Returns:
@@ -46,15 +49,17 @@ def auth():
 
             # If it was not possible to decode
             except Exception:
-                # Sets an unauthorized status
-                handler.set_status(401)
+                # Defines a response message
+                msg = 'Token is not valid or has expired.'
 
-                # Writes back an error message
-                handler.write(dict(error='Token is not valid or has expired.'))
+                # Sets status and writes back an error message
+                logger.debug(msg)
+                handler.set_status(401)
+                handler.write(dict(error=msg))
 
                 return False
 
-            return f(*args, **kwargs)
+            return await f(*args, **kwargs)
 
         return wrapper
 
