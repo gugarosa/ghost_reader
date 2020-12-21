@@ -9,7 +9,7 @@ import utils.constants as c
 logger = logging.getLogger(__name__)
 
 
-def authenticate_user():
+def authenticate_request():
     """Checks whether the request is authenticated or not.
 
     Returns:
