@@ -43,7 +43,7 @@ class LoginHandler(BaseHandler):
 
         # Gathering the request meta-information
         username = req['username']
-        password = hmac.new(c.SERVER_SECRET.encode(), req['password'].encode(), hashlib.sha256).hexdigest()
+        password = hmac.new(c.SERVER_SECRET_KEY.encode(), req['password'].encode(), hashlib.sha256).hexdigest()
 
         try:
             # Gathers the correlated user object
@@ -56,7 +56,7 @@ class LoginHandler(BaseHandler):
             }
 
             # Encoding payload in a token
-            token = jwt.encode(payload, c.SERVER_SECRET, algorithm='HS256')
+            token = jwt.encode(payload, c.SERVER_SECRET_KEY, algorithm='HS256')
 
             # Logs and writes back the token
             logger.debug(token)

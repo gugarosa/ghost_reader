@@ -1,21 +1,22 @@
-import configparser
+import os
 
-# Initializes the configuration object and read it
-config = configparser.ConfigParser()
-config.read('config.ini')
+from dotenv import load_dotenv
+
+# Loads the environment variables
+load_dotenv()
 
 # Gathering and defining constants
 # Server-related
-SERVER_PORT = config.get('SERVER', 'PORT')
-SERVER_PATH = config.get('SERVER', 'PATH')
-SERVER_SECRET = config.get('SERVER', 'SECRET')
-SERVER_WORKERS = config.get('SERVER', 'WORKERS')
+SERVER_PORT = os.getenv('PORT')
+SERVER_FILES_PATH = os.getenv('FILES_PATH')
+SERVER_SECRET_KEY = os.getenv('SECRET_KEY')
+SERVER_WORKERS = os.getenv('WORKERS')
 
 # Database-related
-DB_ALIAS = config.get('DB', 'ALIAS')
-DB_CONNECTION_TIME = config.get('DB', 'CONNECTION_TIME')
-DB_HOST = config.get('DB', 'HOST')
+DB_ALIAS = os.getenv('ALIAS')
+DB_CONNECTION_TIME = os.getenv('CONNECTION_TIME')
+DB_HOST = os.getenv('HOST')
 
 # GPU-related
-GPU_MAX_LOAD = config.get('GPU', 'MAX_LOAD')
-GPU_MAX_MEMORY = config.get('GPU', 'MAX_MEMORY')
+GPU_MAX_LOAD = os.getenv('MAX_LOAD')
+GPU_MAX_MEMORY = os.getenv('MAX_MEMORY')

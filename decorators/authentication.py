@@ -45,7 +45,7 @@ def authenticate_request():
             # Trying to decode the token
             try:
                 # If it is valid, this operation will not cause any error
-                _ = jwt.decode(token, c.SERVER_SECRET, algorithms=['HS256'])
+                _ = jwt.decode(token, c.SERVER_SECRET_KEY, algorithms=['HS256'])
 
             # If it was not possible to decode
             except Exception:

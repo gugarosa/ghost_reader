@@ -42,7 +42,7 @@ class RegisterHandler(BaseHandler):
 
         # Gathering the request meta-information
         username = req['username']
-        password = hmac.new(c.SERVER_SECRET.encode(), req['password'].encode(), hashlib.sha256).hexdigest()
+        password = hmac.new(c.SERVER_SECRET_KEY.encode(), req['password'].encode(), hashlib.sha256).hexdigest()
 
         try:
             # Gathers the correlated user object

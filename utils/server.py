@@ -37,7 +37,6 @@ class Server(Application):
 
         # Defines own arguments to be avaliable for the class
         args = {
-            'config': c.config,
             'db': alias,
             'process_manager': self.process_manager
         }
