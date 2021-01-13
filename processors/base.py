@@ -2,9 +2,8 @@ import datetime
 import logging
 import os
 
-from mongoengine import connect
-
 import utils.constants as c
+import utils.database as d
 
 logger = logging.getLogger(__name__)
 
@@ -30,13 +29,16 @@ class BaseProcessor:
             logger.debug('Sending task to worker ...')
 
             # Connects the process to the database
-            connect(c.DB_ALIAS)
+            d.connect()
 
             # Register the task and gathers its identifier
             _id = self._register_task(task)
 
             # Consumes the task
             self._invoke_consume(_id, task)
+
+            # Disconnects the process to the database
+            d.disconnect()
 
             logger.debug('Worker has finished the task.')
 

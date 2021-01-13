@@ -27,7 +27,7 @@ class RegisterHandler(BaseHandler):
         self.set_config(**kwargs)
 
         # Connects the process to the database
-        connect(c.DB_ALIAS)
+        # connect(c.DB_ALIAS)
 
     async def post(self):
         """It defines the POST request for this handler.

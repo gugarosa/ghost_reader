@@ -1,13 +1,11 @@
 import logging
 from concurrent.futures import ProcessPoolExecutor
 
-from mongoengine import connect, register_connection
-from pymongo.errors import ServerSelectionTimeoutError
+from handlers import (ConvertHandler, ExtractHandler, LoginHandler,
+                      RegisterHandler)
 from tornado.web import Application
 
 import utils.constants as c
-from handlers import (ConvertHandler, ExtractHandler, LoginHandler,
-                      RegisterHandler)
 from utils.process_manager import ProcessManager
 
 logger = logging.getLogger(__name__)
@@ -26,9 +24,6 @@ class Server(Application):
 
         """
 
-        # Registers a connection to the database
-        alias = self.register_database(c.DB_ALIAS)
-
         # Defines the process manager
         self.process_manager = ProcessManager()
 
@@ -37,7 +32,6 @@ class Server(Application):
 
         # Defines own arguments to be avaliable for the class
         args = {
-            'db': alias,
             'process_manager': self.process_manager
         }
 
@@ -51,27 +45,6 @@ class Server(Application):
 
         # Overriding the application class
         super(Server, self).__init__(handlers, debug=True, autoreload=True)
-
-    def register_database(self, alias):
-        """Performs a direct connection to the database.
-
-        """
-
-        logger.debug(f'Registering host: {c.DB_HOST}')
-
-        # Attempts to connect to the database
-        try:
-            # Connects to the db and perform a check
-            register_connection(alias=alias, host=c.DB_HOST,
-                                serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
-
-            logger.debug('Host registered.')
-
-            return alias
-
-        # If an error occurs
-        except ServerSelectionTimeoutError as e:
-            logger.error(e)
 
     def shutdown(self, blocking_call=True):
         """Closes the worker pools.

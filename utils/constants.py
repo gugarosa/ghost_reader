@@ -13,9 +13,12 @@ SERVER_SECRET_KEY = os.getenv('SECRET_KEY')
 SERVER_WORKERS = os.getenv('WORKERS')
 
 # Database-related
-DB_ALIAS = os.getenv('ALIAS')
-DB_CONNECTION_TIME = os.getenv('CONNECTION_TIME')
-DB_HOST = os.getenv('HOST')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
+DB_CONNECTION_TIME = os.getenv('DB_CONNECTION_TIME')
 
 # GPU-related
 GPU_MAX_LOAD = os.getenv('MAX_LOAD')
