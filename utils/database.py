@@ -1,9 +1,10 @@
 import logging
-import utils.constants as c
 
 from mongoengine import connect as _connect
 from mongoengine import disconnect as _disconnect
 from pymongo.errors import ServerSelectionTimeoutError
+
+import utils.constants as c
 
 logger = logging.getLogger(__name__)
 

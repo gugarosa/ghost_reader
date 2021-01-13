@@ -4,7 +4,6 @@ import hmac
 import logging
 
 import tornado
-from mongoengine import connect
 
 import utils.constants as c
 from handlers import BaseHandler
@@ -17,17 +16,6 @@ class RegisterHandler(BaseHandler):
     """Handles every new register request incoming to the API.
 
     """
-
-    def initialize(self, **kwargs):
-        """Basic initializer of every incoming request.
-
-        """
-
-        # Actually sets the configuration to the request
-        self.set_config(**kwargs)
-
-        # Connects the process to the database
-        # connect(c.DB_ALIAS)
 
     async def post(self):
         """It defines the POST request for this handler.

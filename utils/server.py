@@ -1,11 +1,11 @@
 import logging
 from concurrent.futures import ProcessPoolExecutor
 
-from handlers import (ConvertHandler, ExtractHandler, LoginHandler,
-                      RegisterHandler)
 from tornado.web import Application
 
 import utils.constants as c
+from handlers import (ConvertHandler, ExtractHandler, LoginHandler,
+                      RegisterHandler)
 from utils.process_manager import ProcessManager
 
 logger = logging.getLogger(__name__)

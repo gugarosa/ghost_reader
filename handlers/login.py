@@ -5,7 +5,6 @@ import logging
 
 import jwt
 import tornado
-from mongoengine import connect
 
 import utils.constants as c
 from handlers import BaseHandler
@@ -18,17 +17,6 @@ class LoginHandler(BaseHandler):
     """Defines all the activity prior to the user entering the system.
 
     """
-
-    def initialize(self, **kwargs):
-        """Basic initializer of every incoming request.
-
-        """
-
-        # Actually sets the configuration to the request
-        self.set_config(**kwargs)
-
-        # Connects the process to the database
-        # connect()
 
     async def post(self):
         """It defines the POST request for this handler.

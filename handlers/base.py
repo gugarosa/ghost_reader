@@ -2,6 +2,8 @@ import logging
 
 from tornado.web import RequestHandler
 
+import utils.database as d
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,6 +33,25 @@ class BaseHandler(RequestHandler):
                         'x-requested-with, Authorization, Content-type')
         self.set_header('Access-Control-Allow-Methods',
                         'POST, GET, OPTIONS, PATCH, DELETE, PUT')
+
+    def initialize(self, **kwargs):
+        """Basic initializer of every incoming request.
+
+        """
+
+        # Actually sets the configuration to the request
+        self.set_config(**kwargs)
+
+        # Connects the request to the database
+        d.connect()
+        
+    def on_finish(self):
+        """Basic finisher of every incoming request.
+
+        """
+
+        # Disconnects the request to the database
+        d.disconnect()
 
     def handle_response(self, task, response_type):
         """Handles a response by outputting vital information.
