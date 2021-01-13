@@ -17,7 +17,8 @@ def connect():
     # Attempts to connect to the database
     try:
         #
-        _connect(serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
+        _connect(db=c.DB_NAME, username=c.DB_USER, password=c.DB_PASSWORD,
+                 host=c.DB_HOST, port=c.DB_PORT, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
 
     # If an error occurs
     except ServerSelectionTimeoutError as e:
