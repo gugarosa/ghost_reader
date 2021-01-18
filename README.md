@@ -1,8 +1,8 @@
-# Ghost Reader: Automatically Reading Images and Texts
+# Ghost Reader: Autonomously Reading Images and Texts
 
 ## Welcome to Ghost Reader.
 
-An easy-to-use solution for extracting text from images and further converting them into raw audio. Ghost Readers offers a high-level API where requests can be made via JSON in order to accomplish such features. Please, follow along the next sections in order to learn more about this excellent tool.
+An easy-to-use solution for extracting text from images and further converting them into raw audios. Ghost Readers offers a high-level API where requests can be made via JSON to accomplish such features. Please, follow along with the next sections in order to learn more about this excellent tool.
 
 Ghost Reader is compatible with: **Python 3.6+**.
 
@@ -54,15 +54,15 @@ Ghost Reader is based on the following structure, and you should pay attention t
 
 ### Decorators
 
-Each decorator is responsible to perform additional verifications that must be made before computing requests.
+Each decorator is responsible for performing additional verifications that must be made before computing requests.
 
 ### Handlers
 
-Package used to handle any route within this API.
+A package that is used to handle any route within this API.
 
 ### Models
 
-Models are NoSQL definitions used to persist data across interations.
+Models are NoSQL definitions used to persist data across interactions.
 
 ### Processors
 
@@ -70,13 +70,13 @@ The processors are responsible for invoking and consuming the task queues, provi
 
 ### Utils
 
-A utilities package stands for common things shared across the application. It is better to implement once and use it as you wish than re-implementing the same thing over and over again.
+A utility package stands for everyday things shared across the application. It is better to implement once and use it as you wish than re-implementing the same thing repeatedly.
 
 ---
 
 ## Installation
 
-Remember that you need to adjust `.env.example` according to your needs and to make sure that `docker` or `docker-compose` are installed and accessible from the command line.
+Remember that you need to adjust `.env.example` according to your needs and make sure that `docker` or `docker-compose` are installed and accessible from the command line.
 
 ### Docker
 
@@ -92,7 +92,7 @@ After building it, it is now possible to run with the following command:
 docker run -p 8080:8080 --name ghost_reader ghost_reader:latest
 ```
 
-*Note that we are assuming that the API uses port 8080 and that this port will be mapped as 8080 in the host. Also note that such an application uses MongoDB as its external database.*
+*Note that we are assuming that the API uses port 8080 and that this port will be mapped as 8080 in the host. Also, note that such an application uses MongoDB as its external database.*
 
 
 ### Docker-Compose
@@ -123,15 +123,15 @@ Note that sometimes, there is a need for additional implementation. If needed, f
 
 ### Ubuntu
 
-No specific additional commands needed.
+No specific additional commands are needed.
 
 ### Windows
 
-No specific additional commands needed.
+No specific additional commands are needed.
 
 ### MacOS
 
-No specific additional commands needed.
+No specific additional commands are needed.
 
 ---
 
