@@ -78,7 +78,7 @@ A utility package stands for everyday things shared across the application. It i
 
 Remember that you need to adjust `.env.example` according to your needs and make sure that `docker` or `docker-compose` are installed and accessible from the command line.
 
-### Docker
+<!-- ### Docker
 
 First of all, you need to build the container's image, as follows:
 
@@ -113,7 +113,7 @@ If you ever need to perform maintenance or update the repository, please put the
 
 ```
 docker-compose down
-```
+``` -->
 
 ---
 
