@@ -48,7 +48,8 @@ class LoginHandler(BaseHandler):
 
             # Logs and writes back the token
             logger.debug(token)
-            self.write(dict(success=token.decode()))
+
+            self.write(dict(success=token))
 
             return True
 

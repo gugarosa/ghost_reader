@@ -17,9 +17,11 @@ def connect():
 
     # Attempts to connect to the database
     try:
-        #
-        _connect(db=c.DB_DATABASE, username=c.DB_USER, password=c.DB_PASSWORD,
-                 host=c.DB_HOST, port=c.DB_PORT, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
+        # Creates the connection string
+        connection_string = f'mongodb://{c.DB_USER}:{c.DB_PASSWORD}@{c.DB_HOST}:{c.DB_PORT}/?authSource=admin'
+
+        # Connects to the database
+        _connect(c.DB_DATABASE, host=connection_string, serverSelectionTimeoutMS=c.DB_CONNECTION_TIME)
 
     # If an error occurs
     except ServerSelectionTimeoutError as e:

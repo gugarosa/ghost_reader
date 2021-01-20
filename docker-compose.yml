@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+    mongodb:
+        image: mongo
+        container_name: mongodb
+        ports:
+            - 27017:${DB_PORT}
+        volumes:
+            - ./storage:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+            MONGO_INITDB_DATABASE: ${DB_DATABASE}
+        command: mongod --port ${DB_PORT}
+    api:
+        build: './'
+        container_name: api
+        links:
+            - mongodb
+        depends_on: 
+            - mongodb
+        ports:
+            - 8080:${SERVER_PORT}
+        volumes:
+            - ./files:/ghost_reader/data
+        restart: always

@@ -16,10 +16,12 @@ dist/
 downloads/
 eggs/
 .eggs/
+files/
 lib/
 lib64/
 parts/
 sdist/
+storage/
 var/
 wheels/
 pip-wheel-metadata/
