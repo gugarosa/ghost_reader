@@ -23,7 +23,7 @@ First of all. Code is commented. Yes, everything is commented. Just browse to an
 
 Alternatively, if you wish to learn even more, please take a minute:
 
-Ghost Reader is based on the following structure, and you should pay attention to its tree:
+Ghost Reader source files are based on the following structure, and you should pay attention to its tree:
 
 ```yaml
 - ghost_reader
@@ -76,24 +76,7 @@ A utility package stands for everyday things shared across the application. It i
 
 ## Installation
 
-Remember that you need to adjust `.env.example` according to your needs and make sure that `docker` or `docker-compose` are installed and accessible from the command line.
-
-<!-- ### Docker
-
-First of all, you need to build the container's image, as follows:
-
-```
-docker build --tag ghost_reader .
-```
-
-After building it, it is now possible to run with the following command:
-
-```
-docker run -p 8080:8080 --name ghost_reader ghost_reader:latest
-```
-
-*Note that we are assuming that the API uses port 8080 and that this port will be mapped as 8080 in the host. Also, note that such an application uses MongoDB as its external database.*
-
+Remember that you need to adjust `.env.example` according to your needs and make sure that `docker-compose` is installed and accessible from the command line.
 
 ### Docker-Compose
 
@@ -113,7 +96,7 @@ If you ever need to perform maintenance or update the repository, please put the
 
 ```
 docker-compose down
-``` -->
+```
 
 ---
 
